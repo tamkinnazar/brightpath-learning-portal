@@ -1,33 +1,69 @@
-Team Task Assignments
-Project Lead - Tamkin
-Manage repository
-Branch protection
-Team coordination
-Architecture review
+# Week 10 Milestone – Project Planning, Architecture Design & Start the Build
 
 
-Backend Engineer - Mohammad Qader
-Flask backend
-Database models
-API endpoints
+## Project
 
+BrightPath Learning Portal
 
-Frontend Engineer - Aziz
-User interface
-Flask templates
-Frontend testing
+**Objective:** Complete project planning, architecture design, repository setup, and begin application development and cloud infrastructure deployment.
 
+## Team Task Assignments
 
-DevSecOps Engineer - Nesar Ahmad Andar
-Dockerfile
-Terraform
-GitHub Actions
-OIDC configuration
-Cloud Run deployment
+### Project Lead - Tamkin
 
+* [ ] Manage repository
+* [ ] Configure branch protection
+* [ ] Team coordination
+* [ ] Architecture review
 
-Security Reviewer - Tresor Liongo Langombo
-Security review
-IAM review
-Pull request review
-Final compliance check
+### Backend Engineer - Mohammad Qader
+
+* [ ] Develop Flask backend
+* [ ] Create database models
+* [ ] Build API endpoints
+
+### Frontend Engineer - Aziz
+
+* [ ] Develop user interface
+* [ ] Create Flask templates
+* [ ] Perform frontend testing
+
+### DevSecOps Engineer - Nesar Ahmad Andar
+
+* [ ] Create Dockerfile
+* [ ] Build Terraform infrastructure
+* [ ] Configure GitHub Actions
+* [ ] Configure OIDC
+* [ ] Deploy application to Cloud Run
+
+### Security Reviewer - Tresor Liongo Langombo
+
+* [ ] Conduct security review
+* [ ] Review IAM permissions
+* [ ] Review pull requests
+* [ ] Complete compliance checks
+
+---
+
+## Week 10 Deliverables
+
+* [ ] Architecture Diagram
+* [ ] Repository Setup
+* [ ] Flask Application Structure
+* [ ] Dockerfile
+* [ ] Terraform Configuration
+* [ ] GitHub Actions Workflow
+* [ ] OIDC Configuration
+* [ ] Cloud Run Deployment
+* [ ] Security Review
+
+---
+
+## Status
+
+* [x] Team roles assigned
+* [x] Project planning completed
+* [x] Architecture design completed
+* [ ] Development in progress
+* [ ] Infrastructure deployment in progress
+* [ ] Security review pending
