@@ -5,7 +5,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      - "terraform/week7/**"
+      - "terraform/infrastructure/**"
   workflow_dispatch:
 
 jobs:
