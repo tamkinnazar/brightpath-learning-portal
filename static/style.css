@@ -51,7 +51,24 @@ button {
     border-radius: 6px;
 }
 
-.error {
-    color: red;
-    font-weight: bold;
+.flash {
+    background: #fef3c7;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #d1d5db;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #e5e7eb;
 }

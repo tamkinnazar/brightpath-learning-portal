@@ -5,7 +5,9 @@
 
 {% for assignment in assignments %}
 <div class="card">
-    {{ assignment }}
+    <h2>{{ assignment.title }}</h2>
+    <p><strong>Course:</strong> {{ assignment.course_title }}</p>
+    <p>{{ assignment.description }}</p>
 </div>
 {% endfor %}
 {% endblock %}

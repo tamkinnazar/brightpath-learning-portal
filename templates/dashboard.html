@@ -2,7 +2,9 @@
 
 {% block content %}
 <h1>Dashboard</h1>
-<p>This is the main dashboard for BrightPath Learning Portal users.</p>
+
+<p>Welcome, <strong>{{ session.username }}</strong>.</p>
+<p>Your role: <strong>{{ session.role }}</strong></p>
 
 <div class="card">
     <p>Students can view courses, assignments, and grades.</p>

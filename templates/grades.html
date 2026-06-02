@@ -3,9 +3,18 @@
 {% block content %}
 <h1>Grades</h1>
 
-{% for item in grades %}
-<div class="card">
-    <strong>{{ item.course }}</strong>: {{ item.grade }}
-</div>
-{% endfor %}
+<table>
+    <tr>
+        <th>Student</th>
+        <th>Course</th>
+        <th>Grade</th>
+    </tr>
+    {% for item in grades %}
+    <tr>
+        <td>{{ item.student_name }}</td>
+        <td>{{ item.course_title }}</td>
+        <td>{{ item.grade }}</td>
+    </tr>
+    {% endfor %}
+</table>
 {% endblock %}
