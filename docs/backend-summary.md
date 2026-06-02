@@ -4,25 +4,33 @@
 Mohammad Qader – Backend Engineer
 
 ## Work Completed
-I created the initial Flask backend structure for the BrightPath Learning Portal project.
+I created and updated the Flask backend structure for the BrightPath Learning Portal project.
 
-## Backend Files Added
+## Files Added/Updated
 - app.py
 - requirements.txt
 - templates/
 - static/
+- docs/backend-summary.md
 
 ## Routes Created
 - /
-- /login
 - /register
+- /login
 - /dashboard
 - /courses
 - /assignments
 - /grades
 
-## Purpose
-These routes support the main features of the BrightPath Learning Portal, including user access, dashboard navigation, courses, assignments, and grades.
+## Backend Features
+- Flask application setup
+- Login form route using GET and POST
+- Registration form route using GET and POST
+- Temporary in-memory user storage for testing
+- Dashboard route
+- Courses route with sample course data
+- Assignments route with sample assignment data
+- Grades route with sample grade data
 
-## Next Steps
-Future backend work can include secure login, password hashing, database connection, and role-based access for students, teachers, and administrators.
+## Notes
+This is an initial backend implementation for testing and demonstration. In the future, the temporary in-memory user storage should be replaced with PostgreSQL / Cloud SQL, and passwords should be securely hashed before storage.

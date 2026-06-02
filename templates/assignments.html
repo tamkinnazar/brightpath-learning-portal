@@ -2,5 +2,10 @@
 
 {% block content %}
 <h1>Assignments</h1>
-<p>Teachers can upload assignments and students can view them.</p>
+
+{% for assignment in assignments %}
+<div class="card">
+    {{ assignment }}
+</div>
+{% endfor %}
 {% endblock %}

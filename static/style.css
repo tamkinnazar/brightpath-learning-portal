@@ -13,6 +13,7 @@ nav a {
     color: white;
     margin-right: 15px;
     text-decoration: none;
+    font-weight: bold;
 }
 
 .container {
@@ -23,6 +24,34 @@ nav a {
     border-radius: 8px;
 }
 
-h1 {
+h1, h2 {
     color: #1f2937;
+}
+
+input, select {
+    width: 100%;
+    max-width: 350px;
+    padding: 10px;
+    margin-top: 5px;
+}
+
+button {
+    background-color: #2563eb;
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.card {
+    background: #eef2ff;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 6px;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
 }

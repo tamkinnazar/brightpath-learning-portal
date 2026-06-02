@@ -2,5 +2,10 @@
 
 {% block content %}
 <h1>Grades</h1>
-<p>Students can view grades and progress tracking information.</p>
+
+{% for item in grades %}
+<div class="card">
+    <strong>{{ item.course }}</strong>: {{ item.grade }}
+</div>
+{% endfor %}
 {% endblock %}

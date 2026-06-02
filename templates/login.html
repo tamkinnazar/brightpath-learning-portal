@@ -2,5 +2,18 @@
 
 {% block content %}
 <h1>Login</h1>
-<p>User login page for students, teachers, and administrators.</p>
+
+{% if message %}
+<p class="error">{{ message }}</p>
+{% endif %}
+
+<form method="POST">
+    <label>Username:</label><br>
+    <input type="text" name="username" required><br><br>
+
+    <label>Password:</label><br>
+    <input type="password" name="password" required><br><br>
+
+    <button type="submit">Login</button>
+</form>
 {% endblock %}

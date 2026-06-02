@@ -2,5 +2,10 @@
 
 {% block content %}
 <h1>Courses</h1>
-<p>Students can view courses and teachers can manage course information.</p>
+
+{% for course in courses %}
+<div class="card">
+    {{ course }}
+</div>
+{% endfor %}
 {% endblock %}

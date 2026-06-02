@@ -2,5 +2,21 @@
 
 {% block content %}
 <h1>Register</h1>
-<p>User registration page for new BrightPath users.</p>
+
+<form method="POST">
+    <label>Username:</label><br>
+    <input type="text" name="username" required><br><br>
+
+    <label>Password:</label><br>
+    <input type="password" name="password" required><br><br>
+
+    <label>Role:</label><br>
+    <select name="role" required>
+        <option value="student">Student</option>
+        <option value="teacher">Teacher</option>
+        <option value="administrator">Administrator</option>
+    </select><br><br>
+
+    <button type="submit">Create Account</button>
+</form>
 {% endblock %}
