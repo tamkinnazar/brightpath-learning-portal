@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Dashboard</h1>
+
+<p>Welcome, <strong>{{ session.username }}</strong>.</p>
+<p>Your role: <strong>{{ session.role }}</strong></p>
+
+<div class="card">
+    <p>Students can view courses, assignments, and grades.</p>
+    <p>Teachers can manage learning materials and assignments.</p>
+    <p>Administrators can manage users and courses.</p>
+</div>
+{% endblock %}
