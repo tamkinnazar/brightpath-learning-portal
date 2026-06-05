@@ -18,6 +18,7 @@ def get_db():
 # -------------------------
 def upload_to_gcs(file):
     bucket_name = os.getenv("BUCKET_NAME")
+
     client = storage.Client()
     bucket = client.bucket(bucket_name)
 
@@ -48,6 +49,7 @@ def login():
 
         if user and bcrypt.checkpw(password.encode(), user['password'].encode()):
             session['user'] = username
+            session['photo'] = user.get('image_url')
             return redirect(url_for('main.dashboard'))
 
         error = "Invalid username or password ❌"
@@ -78,6 +80,7 @@ def signup():
             (username, hashed.decode())
         )
 
+        db.commit()
         return redirect(url_for('main.login'))
 
     return render_template('signup.html')
@@ -90,7 +93,41 @@ def dashboard():
     if 'user' not in session:
         return redirect(url_for('main.login'))
 
-    return render_template('dashboard.html', user=session['user'])
+    return render_template(
+        'dashboard.html',
+        user=session['user'],
+        photo=session.get('photo')
+    )
+
+# -------------------------
+# ASSIGNMENTS (FIXED)
+# -------------------------
+@main.route('/assignments')
+def assignments():
+    if 'user' not in session:
+        return redirect(url_for('main.login'))
+
+    return render_template('assignments.html')
+
+# -------------------------
+# COURSES (FIXED)
+# -------------------------
+@main.route('/courses')
+def courses():
+    if 'user' not in session:
+        return redirect(url_for('main.login'))
+
+    return render_template('courses.html')
+
+# -------------------------
+# PROGRESS (FIXED)
+# -------------------------
+@main.route('/progress')
+def progress():
+    if 'user' not in session:
+        return redirect(url_for('main.login'))
+
+    return "<h1>Progress Page Coming Soon</h1>"
 
 # -------------------------
 # PROFILE UPLOAD
@@ -116,6 +153,9 @@ def upload_profile():
     )
 
     db.commit()
+
+    session['photo'] = url
+
     return redirect(url_for('main.dashboard'))
 
 # -------------------------

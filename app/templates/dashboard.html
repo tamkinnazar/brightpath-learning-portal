@@ -28,7 +28,7 @@
     <!-- PROFILE CARD -->
     <div class="card profile-card">
 
-        <img src="{{ url_for('static', filename=photo) }}"
+        <img src="{{ photo if photo else url_for('static', filename='Logo.png') }}"
              class="profile-img"
              alt="profile">
 
