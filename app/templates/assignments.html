@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Assignments</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="navbar">
+    <h2>Assignments</h2>
+    <a class="button" href="/dashboard">Back</a>
+</div>
+
+<div class="container">
+
+    <h2>Your Tasks</h2>
+
+    <div class="assignment-list">
+
+        <div class="assignment">
+            Week 10 Architecture
+            <span class="badge blue">Pending</span>
+        </div>
+
+        <div class="assignment">
+            Terraform Setup
+            <span class="badge yellow">In Progress</span>
+        </div>
+
+        <div class="assignment">
+            CI/CD Pipeline
+            <span class="badge green">Completed</span>
+        </div>
+
+        <div class="assignment">
+            Security Audit
+            <span class="badge red">Urgent</span>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

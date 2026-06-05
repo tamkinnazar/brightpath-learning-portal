@@ -1,0 +1,386 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0b0f0c;
+    color: white;
+}
+
+/* =========================
+   BANNER (SAFE FOR LOGIN ONLY)
+========================= */
+.banner {
+    background: linear-gradient(90deg, #00c853, #000);
+    padding: 12px 20px;
+    border-bottom: 2px solid #00c853;
+}
+
+/* LEFT BANNER TEXT */
+.banner-left {
+    display: flex;
+    justify-content: flex-start;
+}
+
+/* TEXT INSIDE BANNER */
+.banner-text h1 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.banner-text p {
+    margin: 2px 0 0;
+    font-size: 12px;
+    color: #b2ffb2;
+}
+
+/* =========================
+   LOGIN CENTER LOGO
+========================= */
+.logo-center-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* BIG LOGO (2X SIZE) */
+.logo-center {
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+}
+
+/* =========================
+   LOGIN PAGE
+========================= */
+.login-body {
+    height: 100vh;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh;
+}
+
+.login-card {
+    background: #111;
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid #00c853;
+    width: 320px;
+    text-align: center;
+}
+
+.login-card input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 5px;
+}
+
+.login-card button {
+    width: 100%;
+    padding: 10px;
+    background: #00c853;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* ERROR MESSAGE */
+.error {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* SMALL TEXT */
+.small-text {
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 10px;
+}
+
+/* =========================
+   DASHBOARD SAFE STYLES
+========================= */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    background: #000;
+    border-bottom: 2px solid #00c853;
+}
+
+.navbar a {
+    color: black;
+}
+
+.container {
+    width: 85%;
+    margin: auto;
+    padding: 20px;
+}
+
+.card {
+    background: #111;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #00c853;
+}
+
+.profile-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.profile-img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #00c853;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 15px;
+    background: #00c853;
+    color: black;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+/* =====================================================
+   ❌ OLD CARD ASSIGNMENTS/COURSES (UNCHANGED)
+   kept as-is because you requested no changes
+===================================================== */
+
+.card:nth-of-type(1) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.card:nth-of-type(1) p {
+    display: inline-block;
+    background: linear-gradient(90deg, #001f3f, #003cff);
+    color: white;
+    padding: 8px 12px;
+    margin: 6px 6px 0 0;
+    border-radius: 20px;
+    font-size: 13px;
+    border: 1px solid #1e90ff;
+    box-shadow: 0 0 8px rgba(0, 60, 255, 0.3);
+}
+
+.card:nth-of-type(2) {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.card:nth-of-type(2) p {
+    background: linear-gradient(90deg, #3a0ca3, #4361ee);
+    padding: 10px 14px;
+    border-radius: 12px;
+    color: white;
+    font-weight: bold;
+    display: inline-block;
+    width: fit-content;
+    margin: 0;
+    box-shadow: 0 0 10px rgba(131, 56, 236, 0.4);
+}
+
+.card:nth-of-type(2) button {
+    background: linear-gradient(90deg, #7209b7, #4361ee);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 10px;
+    transition: 0.3s;
+}
+
+.card:nth-of-type(2) button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(114, 9, 183, 0.6);
+}
+
+.card:nth-of-type(2) p,
+.card:nth-of-type(2) button {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* =====================================================
+   ✅ NEW: ASSIGNMENTS PAGE (TASK ROWS + BADGES)
+===================================================== */
+
+.assignment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.assignment {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #111;
+    padding: 14px 16px;
+    border-radius: 10px;
+    border: 1px solid #222;
+    transition: 0.3s ease;
+}
+
+.assignment:hover {
+    transform: translateX(5px);
+    border-color: #00c853;
+}
+
+/* BADGES */
+.badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.badge.blue {
+    background: #2196f3;
+    color: white;
+}
+
+.badge.yellow {
+    background: #ff9800;
+    color: black;
+}
+
+.badge.green {
+    background: #00c853;
+    color: black;
+}
+
+.badge.red {
+    background: #f44336;
+    color: white;
+}
+
+/* =====================================================
+   ✅ NEW: COURSES PAGE (ROW STYLE)
+===================================================== */
+
+.course-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.course-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #111;
+    padding: 14px 16px;
+    border-radius: 10px;
+    border: 1px solid #222;
+    transition: 0.3s ease;
+}
+
+.course-card:hover {
+    transform: translateX(5px);
+    border-color: #00c853;
+}
+
+/* COURSE BADGES */
+.course-card .badge.blue {
+    background: #2196f3;
+    color: white;
+}
+
+.course-card .badge.green {
+    background: #00c853;
+    color: black;
+}
+
+.course-card .badge.yellow {
+    background: #ff9800;
+    color: black;
+}
+
+.course-card .badge.red {
+    background: #f44336;
+    color: white;
+}
+
+/* ENROLL BUTTON */
+.course-card button {
+    background: linear-gradient(90deg, #7209b7, #4361ee);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.course-card button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(114, 9, 183, 0.6);
+}
+
+/* =========================
+   DASHBOARD SAFE STYLES
+========================= */
+
+/* ... all your existing CSS above stays untouched ... */
+
+
+/* =========================
+   ADD THIS AT THE VERY BOTTOM
+   (STAT BUTTONS - DASHBOARD LINKS)
+========================= */
+
+.stat-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(90deg, #111, #1a1a1a);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #222;
+    text-decoration: none;
+    color: white;
+    transition: 0.3s ease;
+}
+
+.stat-btn:hover {
+    background: #111;
+    border-color: #00c853;
+    transform: scale(1.03);
+}
+
+.stat-btn span {
+    background: #00c853;
+    color: black;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: bold;
+}

@@ -1,0 +1,85 @@
+name: Build and Deploy App
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "app/**"
+      - "templates/**"
+      - "static/**"
+      - "terraform/app/**"
+      - "Dockerfile"
+      - "requirements.txt"
+
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
+
+    env:
+      PROJECT_ID: ${{ vars.TF_VAR_PROJECT_ID }}
+      REGION: us-central1
+      IMAGE_NAME: brightpath-app
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Authenticate to GCP using OIDC
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.WIF_PROVIDER }}
+          service_account: ${{ vars.SA_EMAIL }}
+
+      # Install gcloud CLI
+      - name: Setup Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      # Configure Docker for Artifact Registry
+      - name: Configure Docker
+        run: |
+          gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
+
+      # Build Docker Image
+      - name: Build Docker Image
+        run: |
+          docker build \
+          -t us-central1-docker.pkg.dev/$PROJECT_ID/cis410-app/$IMAGE_NAME:${{ github.sha }} .
+
+      # Push Docker Image
+      - name: Push Docker Image
+        run: |
+          docker push \
+          us-central1-docker.pkg.dev/$PROJECT_ID/cis410-app/$IMAGE_NAME:${{ github.sha }}
+
+      # Install Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.6
+
+      # Terraform Init
+      - name: Terraform Init
+        working-directory: terraform/app
+        run: terraform init
+
+      # Terraform Validate
+      - name: Terraform Validate
+        working-directory: terraform/app
+        run: terraform validate
+
+      # Terraform Apply
+      - name: Terraform Apply
+        working-directory: terraform/app
+        run: |
+          terraform apply -auto-approve \
+            -var="project_id=$PROJECT_ID" \
+            -var="region=$REGION" \
+            -var="image_url=us-central1-docker.pkg.dev/$PROJECT_ID/cis410-app/$IMAGE_NAME:${{ github.sha }}"

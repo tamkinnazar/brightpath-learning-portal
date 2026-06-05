@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+
+    <h2>BrightPath Academy</h2>
+
+    <div>
+        <span style="color:white; margin-right:10px;">
+            {{ user }}
+        </span>
+
+        <a class="button" href="/logout">Logout</a>
+    </div>
+
+</div>
+
+<!-- MAIN CONTAINER -->
+<div class="container">
+
+    <!-- PROFILE CARD -->
+    <div class="card profile-card">
+
+        <img src="{{ url_for('static', filename=photo) }}"
+             class="profile-img"
+             alt="profile">
+
+        <div>
+            <h2>Welcome back, {{ user }} 👋</h2>
+            <p>BrightPath Student Dashboard</p>
+
+            <!-- 🔵 PROFILE UPLOAD FORM -->
+            <form action="/upload-profile" method="POST" enctype="multipart/form-data" style="margin-top:10px;">
+                <input type="file" name="profile_pic" required>
+                <button type="submit">Upload Profile Picture</button>
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid">
+
+        <a href="/courses" class="stat-btn">
+            📚 Courses <span>4</span>
+        </a>
+
+        <a href="/assignments" class="stat-btn">
+            📝 Assignments <span>6</span>
+        </a>
+
+        <a href="/progress" class="stat-btn">
+            📈 Progress <span>78%</span>
+        </a>
+
+    </div>
+
+    <!-- QUICK ACTIONS -->
+    <div class="card">
+
+        <h3>Quick Actions</h3>
+
+        <a class="button" href="/courses">Courses</a>
+        <a class="button" href="/assignments">Assignments</a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

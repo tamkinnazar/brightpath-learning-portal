@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BrightPath Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="login-body">
+
+<!-- =========================
+     TOP BANNER
+========================= -->
+<div class="banner banner-left">
+
+    <div class="banner-text">
+        <h1>BrightPath Academy</h1>
+        <p>Secure Learning Portal</p>
+    </div>
+
+</div>
+
+<!-- =========================
+     CENTER LOGO
+========================= -->
+<div class="logo-center-container">
+
+    <img src="{{ url_for('static', filename='logo.png') }}" class="logo-center">
+
+</div>
+
+<!-- =========================
+     LOGIN BOX
+========================= -->
+<div class="login-container">
+
+    <div class="login-card">
+
+        <h2>Login</h2>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <form method="POST">
+
+            <input type="text" name="username" placeholder="Username" required>
+
+            <input type="password" name="password" placeholder="Password" required>
+
+            <button type="submit">Login</button>
+
+        </form>
+
+        <!-- =========================
+             SIGNUP BUTTON (ADDED)
+        ========================= -->
+        <div style="margin-top: 15px;">
+            <a href="/signup">
+                <button type="button" class="secondary-button">
+                    Create Account
+                </button>
+            </a>
+        </div>
+
+        <p class="small-text">
+            Welcome to BrightPath Learning System
+        </p>
+
+    </div>
+
+</div>
+
+</body>
+</html>
