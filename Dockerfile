@@ -12,4 +12,4 @@ USER appuser
 
 EXPOSE 8080
 
-CMD ["python", "app.py"]
+CMD ["gunicorn", "wsgi:app", "--bind", "0.0.0.0:8080"]
