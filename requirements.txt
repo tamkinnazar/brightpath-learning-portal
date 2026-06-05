@@ -1,4 +1,3 @@
-=======
 Flask==3.0.0
 gunicorn==21.2.0
 mysql-connector-python==8.3.0
@@ -8,4 +7,3 @@ cryptography
 bcrypt
 google-cloud-storage
 cloud-sql-python-connector[pymysql]
->>>>>>> f13bdfd (fix cloud sql integration and cleanup entrypoint)
