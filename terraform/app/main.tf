@@ -2,6 +2,14 @@ terraform {
   required_version = ">= 1.0"
 }
 
+provider "google" {
+  project = var.project_id
+  region  = var.region
+}
+
+# =========================
+# INFRA REMOTE STATE
+# =========================
 data "terraform_remote_state" "infra" {
   backend = "gcs"
   config = {
@@ -10,6 +18,9 @@ data "terraform_remote_state" "infra" {
   }
 }
 
+# =========================
+# CLOUD RUN SERVICE
+# =========================
 resource "google_cloud_run_v2_service" "app" {
   name     = "brightpath-app"
   location = var.region
@@ -22,6 +33,12 @@ resource "google_cloud_run_v2_service" "app" {
 
       ports {
         container_port = 8080
+      }
+
+      # DB CONFIG
+      env {
+        name  = "DB_HOST"
+        value = data.terraform_remote_state.infra.outputs.db_connection_name
       }
 
       env {
@@ -40,20 +57,8 @@ resource "google_cloud_run_v2_service" "app" {
       }
 
       env {
-        name  = "DB_CONNECTION_NAME"
-        value = data.terraform_remote_state.infra.outputs.db_connection_name
-      }
-
-      env {
         name  = "BUCKET_NAME"
         value = data.terraform_remote_state.infra.outputs.bucket_name
-      }
-
-      resources {
-        limits = {
-          cpu    = "1000m"
-          memory = "512Mi"
-        }
       }
     }
 
@@ -67,4 +72,14 @@ resource "google_cloud_run_v2_service" "app" {
     percent = 100
     type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
   }
+}
+
+# PUBLIC ACCESS
+resource "google_cloud_run_service_iam_member" "public" {
+  project  = var.project_id
+  location = var.region
+  service  = google_cloud_run_v2_service.app.name
+
+  role   = "roles/run.invoker"
+  member = "allUsers"
 }
