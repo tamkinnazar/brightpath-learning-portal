@@ -57,7 +57,7 @@ jobs:
       - name: Push Docker Image
         run: |
           docker push \
-            us-central1-docker.pkg.dev/$PROJECT_ID/cis410-app/$IMAGE_NAME:${{ github.sha }}
+            -t us-central1-docker.pkg.dev/$PROJECT_ID/cis410-app/$IMAGE_NAME:${{ github.sha }}
 
       # Setup Terraform
       - name: Setup Terraform
@@ -75,7 +75,7 @@ jobs:
         working-directory: terraform/app
         run: terraform validate
 
-      # Terraform Apply
+      # Terraform Apply (Clean and Secure)
       - name: Terraform Apply
         working-directory: terraform/app
         run: |
@@ -83,8 +83,6 @@ jobs:
             -var="project_id=$PROJECT_ID" \
             -var="region=$REGION" \
             -var="image_url=us-central1-docker.pkg.dev/$PROJECT_ID/cis410-app/$IMAGE_NAME:${{ github.sha }}" \
-            -var="db_user=${{ secrets.DB_USER }}" \
-            -var="db_password=${{ secrets.DB_PASSWORD }}" \
             -var="db_name=appdb" \
             -var="sa_email=${{ vars.SA_EMAIL }}" \
             -var="vpc_connector=cis410-connector"

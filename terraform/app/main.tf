@@ -35,20 +35,10 @@ resource "google_cloud_run_v2_service" "app" {
         container_port = 8080
       }
 
-      # DB CONFIG
+      # Standard App Config via Remote State
       env {
-        name  = "DB_HOST"
+        name  = "DB_CONNECTION_NAME"
         value = data.terraform_remote_state.infra.outputs.db_connection_name
-      }
-
-      env {
-        name  = "DB_USER"
-        value = var.db_user
-      }
-
-      env {
-        name  = "DB_PASSWORD"
-        value = var.db_password
       }
 
       env {
@@ -59,6 +49,27 @@ resource "google_cloud_run_v2_service" "app" {
       env {
         name  = "BUCKET_NAME"
         value = data.terraform_remote_state.infra.outputs.bucket_name
+      }
+
+      # Secure Secrets References directly from GCP Secret Manager
+      env {
+        name = "DB_USER"
+        value_source {
+          secret_key_ref {
+            secret  = "db_user" # Must match the secret ID in Secret Manager
+            version = "latest"
+          }
+        }
+      }
+
+      env {
+        name = "DB_PASSWORD"
+        value_source {
+          secret_key_ref {
+            secret  = "db-password" # Must match the secret ID in Secret Manager
+            version = "latest"
+          }
+        }
       }
     }
 

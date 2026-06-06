@@ -16,18 +16,12 @@ variable "sa_email" {
   type = string
 }
 
-variable "db_user" {
-  type = string
-}
-
-variable "db_password" {
-  type = string
-}
-
 variable "db_name" {
-  type = string
+  type    = string
+  default = "appdb"
 }
 
 variable "vpc_connector" {
-  type = string
+  type    = string
+  default = "cis410-connector"
 }
