@@ -12,5 +12,5 @@ USER appuser
 
 EXPOSE 8080
 
-# FIXED: Changed "app:app" to "main:app" so Gunicorn boots from main.py
-CMD ["gunicorn", "app.main:app", "-b", "0.0.0.0:8080"]
+# FIXED: Added 2 workers and 4 threads to stop database connections from blocking the server
+CMD ["gunicorn", "app.main:app", "-b", "0.0.0.0:8080", "--workers=2", "--threads=4", "--timeout=60"]
