@@ -35,32 +35,33 @@ def signup():
             "INSERT INTO students (username, password) VALUES (%s, %s)",
             (username, hashed)
         )
-
         return redirect("/login")
 
     return render_template("signup.html")
 
 
 # -------------------------
-# LOGIN
+# LOGIN (FIXED NAMEERROR)
 # -------------------------
-# Example structure for your authentication routes
-# 💡 EXAMPLE: How your login/signup routes should look now
-@app.route('/login', methods=['POST'])
+# Changed from @app.route to @main.route, and added GET support to render a template
+@main.route('/login', methods=['GET', 'POST'])
 def login():
-    username = request.form.get('username')
-    password = request.form.get('password')
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
 
-    # The 'with' block forces the database connection to close instantly 
-    # when the block ends—even if the login fails or throws an error!
-    with get_db_connection() as conn:
-        with conn.cursor() as cursor:
-            cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
-            user = cursor.fetchone()
-            
-            # ... your password validation and session logic ...
+        with get_db_connection() as conn:
+            with conn.cursor() as cursor:
+                # Note: Adjust table name to 'students' if that's what you used in signup!
+                cursor.execute("SELECT * FROM students WHERE username = %s", (username,))
+                user = cursor.fetchone()
+                
+                # ... your password validation and session logic ...
+                # e.g., session["user"] = username
 
-    return redirect(url_for('dashboard'))
+        return redirect(url_for('main.dashboard')) # Use blueprint naming syntax for url_for
+
+    return render_template("login.html")
 
 
 # -------------------------
@@ -97,7 +98,6 @@ def upload():
         return "No file uploaded", 400
 
     filename = secure_filename(file.filename)
-
     bucket_name = os.getenv("BUCKET_NAME")
 
     client = storage.Client()
