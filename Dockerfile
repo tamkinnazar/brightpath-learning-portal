@@ -5,11 +5,13 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY app/ .
+COPY . .
 
 RUN adduser --disabled-password --gecos "" appuser
 USER appuser
 
 EXPOSE 8080
 
-CMD ["gunicorn", "wsgi:app", "--bind", "0.0.0.0:8080"]
+ENV PYTHONPATH=/app
+WORKDIR /app
+CMD ["gunicorn", "wsgi:app", "-b", "0.0.0.0:8080"]

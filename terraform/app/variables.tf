@@ -1,11 +1,8 @@
-variable "region" {
-  type = string
-}
+variable "image_url" {}
+variable "region" {}
+variable "sa_email" {}
 
-variable "project_id" {
-  type = string
-}
-
-variable "image_url" {
-  type = string
-}
+variable "db_user" {}
+variable "db_password" {}
+variable "db_name" {}
+variable "db_connection_name" {}
