@@ -49,8 +49,9 @@ jobs:
           gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
 
       # Build Docker Image
-      - name: Build Docker Image
-        run: docker build -t us-central1-docker.pkg.dev/$PROJECT_ID/cis410-app/$IMAGE_NAME:${{ github.sha }} .
+      # Push Docker Image
+      - name: Push Docker Image
+        run: docker push us-central1-docker.pkg.dev/$PROJECT_ID/cis410-app/$IMAGE_NAME:${{ github.sha }}
 
       # Push Docker Image
       - name: Push Docker Image
