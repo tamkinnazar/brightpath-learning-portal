@@ -45,29 +45,21 @@ def signup():
 # LOGIN
 # -------------------------
 # Example structure for your authentication routes
+# 💡 EXAMPLE: How your login/signup routes should look now
 @app.route('/login', methods=['POST'])
 def login():
     username = request.form.get('username')
     password = request.form.get('password')
-    
-    conn = None
-    try:
-        conn = get_db_connection()
+
+    # The 'with' block forces the database connection to close instantly 
+    # when the block ends—even if the login fails or throws an error!
+    with get_db_connection() as conn:
         with conn.cursor() as cursor:
-            # Your query logic here
             cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
             user = cursor.fetchone()
             
-            # (Your bcrypt password checking logic goes here)
-            
-    except Exception as e:
-        print(f"Database error during login: {e}")
-        return "Internal Server Error", 500
-    finally:
-        # CRITICAL: This prevents the worker from timing out on the next request
-        if conn:
-            conn.close() 
-            
+            # ... your password validation and session logic ...
+
     return redirect(url_for('dashboard'))
 
 
