@@ -50,14 +50,13 @@ jobs:
 
       # Build Docker Image
       # Push Docker Image
-      - name: Push Docker Image
-        run: docker push us-central1-docker.pkg.dev/$PROJECT_ID/cis410-app/$IMAGE_NAME:${{ github.sha }}
+      # Build Docker Image
+      - name: Build Docker Image
+        run: docker build -t us-central1-docker.pkg.dev/${{ vars.TF_VAR_PROJECT_ID }}/cis410-app/brightpath-app:${{ github.sha }} .
 
       # Push Docker Image
       - name: Push Docker Image
-        run: |
-          docker push \
-            -t us-central1-docker.pkg.dev/$PROJECT_ID/cis410-app/$IMAGE_NAME:${{ github.sha }}
+        run: docker push us-central1-docker.pkg.dev/${{ vars.TF_VAR_PROJECT_ID }}/cis410-app/brightpath-app:${{ github.sha }}
 
       # Setup Terraform
       - name: Setup Terraform
