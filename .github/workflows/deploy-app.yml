@@ -11,6 +11,7 @@ on:
       - "terraform/app/**"
       - "Dockerfile"
       - "requirements.txt"
+      - ".github/workflows/**"
 
   workflow_dispatch:
 
