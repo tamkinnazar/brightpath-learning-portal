@@ -27,6 +27,9 @@ resource "google_cloud_run_v2_service" "app" {
 
   template {
     service_account = var.sa_email
+    
+    # Extended execution time constraints to protect against slow cold starts
+    timeout = "60s" 
 
     containers {
       image = var.image_url
@@ -56,7 +59,7 @@ resource "google_cloud_run_v2_service" "app" {
         name = "DB_USER"
         value_source {
           secret_key_ref {
-            secret  = "db_user" # Must match the secret ID in Secret Manager
+            secret  = "db_user"
             version = "latest"
           }
         }
@@ -66,7 +69,7 @@ resource "google_cloud_run_v2_service" "app" {
         name = "DB_PASSWORD"
         value_source {
           secret_key_ref {
-            secret  = "db-password" # Must match the secret ID in Secret Manager
+            secret  = "db-password"
             version = "latest"
           }
         }
