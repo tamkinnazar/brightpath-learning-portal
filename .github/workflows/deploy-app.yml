@@ -38,11 +38,11 @@ jobs:
           workload_identity_provider: ${{ vars.WIF_PROVIDER }}
           service_account: ${{ vars.SA_EMAIL }}
 
-      # Install gcloud CLI
+      # Setup gcloud
       - name: Setup Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
 
-      # Configure Docker for Artifact Registry
+      # Configure Docker
       - name: Configure Docker
         run: |
           gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
@@ -51,15 +51,15 @@ jobs:
       - name: Build Docker Image
         run: |
           docker build \
-          -t us-central1-docker.pkg.dev/$PROJECT_ID/cis410-app/$IMAGE_NAME:${{ github.sha }} .
+            -t us-central1-docker.pkg.dev/$PROJECT_ID/cis410-app/$IMAGE_NAME:${{ github.sha }} .
 
       # Push Docker Image
       - name: Push Docker Image
         run: |
           docker push \
-          us-central1-docker.pkg.dev/$PROJECT_ID/cis410-app/$IMAGE_NAME:${{ github.sha }}
+            us-central1-docker.pkg.dev/$PROJECT_ID/cis410-app/$IMAGE_NAME:${{ github.sha }}
 
-      # Install Terraform
+      # Setup Terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
@@ -82,4 +82,9 @@ jobs:
           terraform apply -auto-approve \
             -var="project_id=$PROJECT_ID" \
             -var="region=$REGION" \
-            -var="image_url=us-central1-docker.pkg.dev/$PROJECT_ID/cis410-app/$IMAGE_NAME:${{ github.sha }}"
+            -var="image_url=us-central1-docker.pkg.dev/$PROJECT_ID/cis410-app/$IMAGE_NAME:${{ github.sha }}" \
+            -var="db_user=${{ secrets.DB_USER }}" \
+            -var="db_password=${{ secrets.DB_PASSWORD }}" \
+            -var="db_name=appdb" \
+            -var="sa_email=${{ vars.SA_EMAIL }}" \
+            -var="vpc_connector=cis410-connector"
