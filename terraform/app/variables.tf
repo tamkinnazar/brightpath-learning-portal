@@ -1,8 +1,38 @@
-variable "image_url" {}
-variable "region" {}
-variable "sa_email" {}
+variable "project_id" {
+  description = "GCP Project ID"
+  type        = string
+}
 
-variable "db_user" {}
-variable "db_password" {}
-variable "db_name" {}
-variable "db_connection_name" {}
+variable "region" {
+  description = "GCP Region"
+  type        = string
+  default     = "us-central1"
+}
+
+variable "sa_email" {
+  description = "Service account email for Cloud Run"
+  type        = string
+}
+
+variable "db_user" {
+  type = string
+}
+
+variable "db_password" {
+  type      = string
+  sensitive = true
+}
+
+variable "db_name" {
+  type = string
+}
+
+variable "vpc_connector" {
+  description = "VPC connector name"
+  type        = string
+}
+
+variable "image_url" {
+  description = "Docker image URL for Cloud Run"
+  type        = string
+}

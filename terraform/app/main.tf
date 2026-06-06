@@ -2,6 +2,14 @@ terraform {
   required_version = ">= 1.0"
 }
 
+data "terraform_remote_state" "infra" {
+  backend = "gcs"
+  config = {
+    bucket = "cis410-nandar-tfstate"
+    prefix = "terraform/infrastructure"
+  }
+}
+
 resource "google_cloud_run_v2_service" "app" {
   name     = "brightpath-app"
   location = var.region
