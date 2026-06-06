@@ -12,6 +12,5 @@ USER appuser
 
 EXPOSE 8080
 
-ENV PYTHONPATH=/app
-WORKDIR /app
-CMD ["gunicorn", "wsgi:app", "-b", "0.0.0.0:8080"]
+
+CMD ["gunicorn", "app:app", "-b", "0.0.0.0:8080"]

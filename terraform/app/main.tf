@@ -33,7 +33,12 @@ resource "google_cloud_run_v2_service" "app" {
 
       env {
         name  = "DB_CONNECTION_NAME"
-        value = var.db_connection_name
+        value = data.terraform_remote_state.infra.outputs.db_connection_name
+      }
+
+      env {
+        name  = "BUCKET_NAME"
+        value = data.terraform_remote_state.infra.outputs.bucket_name
       }
 
       resources {
@@ -43,10 +48,15 @@ resource "google_cloud_run_v2_service" "app" {
         }
       }
     }
+
+    vpc_access {
+      connector = "projects/${var.project_id}/locations/${var.region}/connectors/${var.vpc_connector}"
+      egress    = "ALL_TRAFFIC"
+    }
   }
 
-traffic {
-  percent = 100
-  type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
-}
+  traffic {
+    percent = 100
+    type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
+  }
 }

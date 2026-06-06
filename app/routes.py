@@ -1,143 +1,153 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session
-import os
-import mysql.connector
+from flask import Blueprint, render_template, request, redirect, session, url_for
+from app.db import get_db_connection
 import bcrypt
+import os
 from werkzeug.utils import secure_filename
 from google.cloud import storage
 
-main = Blueprint('main', __name__)
+main = Blueprint("main", __name__)
 
-# =========================
-# DB CONNECTION (CLOUD RUN SAFE)
-# =========================
-def get_db():
-    return mysql.connector.connect(
-        user=os.getenv("DB_USER"),
-        password=os.getenv("DB_PASSWORD"),
-        database=os.getenv("DB_NAME"),
-        unix_socket=f"/cloudsql/{os.getenv('DB_CONNECTION_NAME')}"
-    )
+# -------------------------
+# HOME
+# -------------------------
+@main.route("/")
+def home():
+    if "user" in session:
+        return redirect("/dashboard")
+    return redirect("/login")
 
-# =========================
+
+# -------------------------
+# SIGNUP
+# -------------------------
+@main.route("/signup", methods=["GET", "POST"])
+def signup():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        hashed = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute(
+            "INSERT INTO students (username, password) VALUES (%s, %s)",
+            (username, hashed)
+        )
+
+        return redirect("/login")
+
+    return render_template("signup.html")
+
+
+# -------------------------
 # LOGIN
-# =========================
-@main.route('/', methods=['GET', 'POST'])
+# -------------------------
+@main.route("/login", methods=["GET", "POST"])
 def login():
-    error = None
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
 
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-
-        db = get_db()
-        cursor = db.cursor(dictionary=True)
+        conn = get_db_connection()
+        cursor = conn.cursor()
 
         cursor.execute("SELECT * FROM students WHERE username=%s", (username,))
         user = cursor.fetchone()
 
-        if user and bcrypt.checkpw(password.encode(), user['password'].encode()):
-            session['user'] = username
-            return redirect(url_for('main.dashboard'))
+        # ✅ SAFE CHECK (prevents crash)
+        if not user:
+            return "Invalid credentials"
 
-        error = "Invalid login"
+        stored_password = user["password"]
 
-    return render_template('login.html', error=error)
+        # convert safely to bytes
+        if isinstance(stored_password, str):
+            stored_password = stored_password.encode("utf-8")
 
-# =========================
-# SIGNUP
-# =========================
-@main.route('/signup', methods=['GET', 'POST'])
-def signup():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+        if bcrypt.checkpw(password.encode("utf-8"), stored_password):
+            session["user"] = username
+            return redirect("/dashboard")
 
-        hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+        return "Invalid credentials"
 
-        db = get_db()
-        cursor = db.cursor()
+    return render_template("login.html")
 
-        cursor.execute(
-            "INSERT INTO students (username, password) VALUES (%s, %s)",
-            (username, hashed.decode())
-        )
-        db.commit()
 
-        return redirect(url_for('main.login'))
-
-    return render_template('signup.html')
-
-# =========================
+# -------------------------
 # DASHBOARD
-# =========================
-@main.route('/dashboard')
+# -------------------------
+@main.route("/dashboard")
 def dashboard():
-    if 'user' not in session:
-        return redirect(url_for('main.login'))
+    if "user" not in session:
+        return redirect("/login")
 
-    return render_template('dashboard.html', user=session['user'])
+    return render_template("dashboard.html", user=session["user"])
 
-# =========================
-# LOGOUT (ONLY ONCE)
-# =========================
-@main.route('/logout')
+
+# -------------------------
+# LOGOUT
+# -------------------------
+@main.route("/logout")
 def logout():
     session.clear()
-    return redirect(url_for('main.login'))
+    return redirect("/login")
 
-# =========================
-# COURSES (ONLY ONCE)
-# =========================
-@main.route('/courses')
-def courses():
-    if 'user' not in session:
-        return redirect(url_for('main.login'))
 
-    return render_template('courses.html', user=session['user'])
+# -------------------------
+# PROFILE UPLOAD (GCS FIXED)
+# -------------------------
+@main.route("/upload", methods=["POST"])
+def upload():
+    if "user" not in session:
+        return redirect("/login")
 
-# =========================
-# ASSIGNMENTS (ONLY ONCE)
-# =========================
-@main.route('/assignments')
-def assignments():
-    if 'user' not in session:
-        return redirect(url_for('main.login'))
+    file = request.files.get("image") or request.files.get("file")
 
-    return render_template('assignments.html', user=session['user'])
-
-# =========================
-# PROFILE UPLOAD
-# =========================
-@main.route('/upload-profile', methods=['POST'])
-def upload_profile():
-    if 'user' not in session:
-        return redirect(url_for('main.login'))
-
-    if 'profile_pic' not in request.files:
+    if not file or file.filename == "":
         return "No file uploaded", 400
 
-    file = request.files['profile_pic']
+    filename = secure_filename(file.filename)
 
     bucket_name = os.getenv("BUCKET_NAME")
 
     client = storage.Client()
     bucket = client.bucket(bucket_name)
-
-    filename = secure_filename(file.filename)
     blob = bucket.blob(filename)
 
-    blob.upload_from_file(file)
-    blob.make_public()
+    blob.upload_from_file(file, content_type=file.content_type)
 
-    url = blob.public_url
+    image_url = f"https://storage.googleapis.com/{bucket_name}/{filename}"
 
-    db = get_db()
-    cursor = db.cursor()
+    conn = get_db_connection()
+    cursor = conn.cursor()
 
     cursor.execute(
         "UPDATE students SET image_url=%s WHERE username=%s",
-        (url, session['user'])
+        (image_url, session["user"])
     )
-    db.commit()
 
-    return redirect(url_for('main.dashboard'))
+    return redirect("/dashboard")
+
+
+# -------------------------
+# COURSES (FIX FOR NOT FOUND)
+# -------------------------
+@main.route("/courses")
+def courses():
+    if "user" not in session:
+        return redirect("/login")
+
+    return render_template("courses.html")
+
+
+# -------------------------
+# ASSIGNMENTS (FIX FOR NOT FOUND)
+# -------------------------
+@main.route("/assignments")
+def assignments():
+    if "user" not in session:
+        return redirect("/login")
+
+    return render_template("assignments.html")

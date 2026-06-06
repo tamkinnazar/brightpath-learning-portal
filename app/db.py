@@ -1,15 +1,12 @@
 import os
-from google.cloud.sql.connector import Connector
 import pymysql
 
-connector = Connector()
-
 def get_db_connection():
-    conn = connector.connect(
-        os.getenv("DB_CONNECTION_NAME"),
-        "pymysql",
+    return pymysql.connect(
+        host=os.getenv("DB_HOST"),
         user=os.getenv("DB_USER"),
         password=os.getenv("DB_PASSWORD"),
-        db=os.getenv("DB_NAME")
+        database=os.getenv("DB_NAME"),
+        cursorclass=pymysql.cursors.DictCursor,
+        autocommit=True
     )
-    return conn
