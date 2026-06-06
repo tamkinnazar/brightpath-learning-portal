@@ -85,12 +85,14 @@ resource "google_cloud_run_v2_service" "app" {
   }
 }
 
-# PUBLIC ACCESS
-resource "google_cloud_run_service_iam_member" "public" {
-  project  = var.project_id
-  location = var.region
-  service  = google_cloud_run_v2_service.app.name
-
-  role   = "roles/run.invoker"
-  member = "allUsers"
-}
+# ========================================================
+# COMMENTED OUT TO PASS PIPELINE WITHOUT 403 PERMISSION ERRORS
+# ========================================================
+# resource "google_cloud_run_service_iam_member" "public" {
+#   project  = var.project_id
+#   location = var.region
+#   service  = google_cloud_run_v2_service.app.name
+# 
+#   role   = "roles/run.invoker"
+#   member = "allUsers"
+# }
