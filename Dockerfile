@@ -12,5 +12,6 @@ USER appuser
 
 EXPOSE 8080
 
-# FIXED: Added 2 workers and 4 threads to stop database connections from blocking the server
-CMD ["gunicorn", "app.main:app", "-b", "0.0.0.0:8080", "--workers=1", "--threads=2", "--timeout=90"]
+# FIX: Removed threads to eliminate thread contention/GIL locking during bcrypt hashing.
+# Increased timeout to 120 seconds just in case Cloud Run experiences cold start lag.
+CMD ["gunicorn", "app.main:app", "-b", "0.0.0.0:8080", "--workers=1", "--timeout=120"]

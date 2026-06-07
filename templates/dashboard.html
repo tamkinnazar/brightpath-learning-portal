@@ -1,14 +1,45 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Dashboard</h1>
+<div class="dashboard-container" style="max-width: 800px; margin: 0 auto; padding: 20px;">
+    <div class="logo-header" style="text-align: center; margin-bottom: 20px;">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="BrightPath Academy Logo" width="120">
+    </div>
 
-<p>Welcome, <strong>{{ session.username }}</strong>.</p>
-<p>Your role: <strong>{{ session.role }}</strong></p>
+    <h1>Dashboard</h1>
+    <p>Welcome, <strong>{{ session.get('user', 'Student') }}</strong> 👋</p>
+    
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
 
-<div class="card">
-    <p>Students can view courses, assignments, and grades.</p>
-    <p>Teachers can manage learning materials and assignments.</p>
-    <p>Administrators can manage users and courses.</p>
+    <div class="card info-section" style="padding: 20px; background-color: #fff; border: 1px solid #ddd; border-radius: 8px;">
+        <h3>BrightPath Student Performance Dashboard</h3>
+        <ul style="list-style-type: none; padding-left: 0; font-size: 16px; line-height: 2;">
+            <li>📚 <strong>Courses Active:</strong> 4</li>
+            <li>📝 <strong>Assignments Remaining:</strong> 1</li>
+            <li>📈 <strong>Overall Progress Academic Grade:</strong> <span style="color: #28a745; font-weight: bold;">95%</span></li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
+
+        <p style="color: #666; font-size: 14px;">Select a file below to change your profile photo:</p>
+        
+        <form action="/upload-profile" method="POST" enctype="multipart/form-data" style="margin-top: 15px;">
+            <input type="file" name="image" accept="image/*" required style="margin-bottom: 10px;">
+            <br>
+            <button type="submit" style="padding: 6px 15px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                Upload New Image
+            </button>
+        </form>
+    </div>
+
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+    <div class="card info-section" style="padding: 15px; color: #555; font-size: 14px;">
+        <h3>System Roles</h3>
+        <p>📚 <strong>Students</strong> can view courses, assignments, and grades.</p>
+        <p>📝 <strong>Teachers</strong> can manage learning materials and assignments.</p>
+        <p>📈 <strong>Administrators</strong> can manage users and courses.</p>
+    </div>
 </div>
 {% endblock %}
