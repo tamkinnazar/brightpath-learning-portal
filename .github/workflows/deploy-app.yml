@@ -32,6 +32,25 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      # ========================================================
+      # SNYK SECURITY SCAN 1 & 2: SAST (CODE) & SCA (DEPS)
+      # ========================================================
+      - name: Run Snyk Code Scan (SAST)
+        uses: snyk/actions/python@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: code test
+          args: --severity-threshold=high
+
+      - name: Run Snyk Open Source Scan (SCA)
+        uses: snyk/actions/python@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: test
+          args: --file=requirements.txt --severity-threshold=high
+
       # Authenticate to GCP using OIDC
       - name: Authenticate to GCP
         uses: google-github-actions/auth@v2
@@ -49,12 +68,21 @@ jobs:
           gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
 
       # Build Docker Image
-      # Push Docker Image
-      # Build Docker Image
       - name: Build Docker Image
         run: docker build -t us-central1-docker.pkg.dev/${{ vars.TF_VAR_PROJECT_ID }}/cis410-app/brightpath-app:${{ github.sha }} .
 
-      # Push Docker Image
+      # ========================================================
+      # SNYK SECURITY SCAN 3: CONTAINER SCAN (BEFORE PUSH)
+      # ========================================================
+      - name: Run Snyk Container Scan
+        uses: snyk/actions/docker@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          image: us-central1-docker.pkg.dev/${{ vars.TF_VAR_PROJECT_ID }}/cis410-app/brightpath-app:${{ github.sha }}
+          args: --file=Dockerfile --severity-threshold=high
+
+      # Push Docker Image (Only happens if Container Scan passes!)
       - name: Push Docker Image
         run: docker push us-central1-docker.pkg.dev/${{ vars.TF_VAR_PROJECT_ID }}/cis410-app/brightpath-app:${{ github.sha }}
 
