@@ -4,66 +4,53 @@
 ![Python](https://img.shields.io/badge/Python-Flask-green)
 ![Terraform](https://img.shields.io/badge/Terraform-IaC-purple)
 
-## CIS 410 – Cybersecurity Automation Capstone Project
+## 🏢 Company Profile & Mission
 
-### Company
+* **Company Name:** BrightPath Academy
+* **Industry / Sector:** Education Technology / Online Learning
+* **Company Size:** 50-employee startup
+* **Headquarters / Region:** Seattle, WA — serving students across the United States
+* **Founded Year:** 2025
 
-**BrightPath Academy**
-
-### Industry
-
-Education Technology / Online Learning
-
-### Mission Statement
-
+### 🎯 Mission Statement
 To provide students with a secure and modern online learning platform that supports accessible education for everyone.
 
-## Project Overview
+### 📝 Problem Statement
+Many students and teachers need a simple and secure platform to manage online learning, assignments, and course materials in one centralized location. BrightPath Learning Portal mitigates credential exposure and application vulnerabilities by embedding automated security controls straight into the production container ecosystem.
 
-BrightPath Learning Portal is a web application designed for students, teachers, and school administrators. The platform provides a secure environment for managing online learning, assignments, grades, and educational resources.
+***
 
-## Core Features
+## 👥 Team Members, Roles & Accountabilities
 
-* User registration and secure login
-* Student access to courses and assignments
-* Teacher upload of learning materials and assignments
-* Grade and progress tracking
-* Administrative management of users and courses
+Our team operates under a strict role-based structure mirroring real-world corporate DevSecOps teams:
 
-## Team Members
+| Name | Project Role | Individual Structural Responsibility |
+| :--- | :--- | :--- |
+| **Tamkin Nazari** | **Project Lead & Repo Owner** | Owns repository management, established/enforced branch protection rules, handles final feature merging. |
+| **Mohammad Qader** | **Backend Engineer** | Developed Flask API logic, managed application route authentication, constructed the Dockerfile base. |
+| **Aziz** | **Frontend Engineer** | Designed user-facing UI Flask HTML/CSS templates and integrated them with backend endpoints. |
+| **Nesar Ahmad Andar** | **DevSecOps Engineer** | Built the GitHub Actions pipeline, managed the automated Terraform runs, established OIDC authentication. |
+| **Tresor Liongo Langombo** | **Security Reviewer** | Executed mandatory pull request security reviews, audited platform IAM, and led compliance testing. |
 
-| Name                   | Role               |
-| ---------------------- | ------------------ |
-| Tamkin Nazari          | Project Lead       |
-| Mohammad Qader         | Backend Engineer   |
-| Aziz                   | Frontend Engineer  |
-| Nesar Ahmad Andar      | DevSecOps Engineer |
-| Tresor Liongo Langombo | Security Reviewer  |
+***
 
-## Technology Stack
+## 🛠️ Technology Stack & Decoupled Architecture
 
-* Frontend: Flask Templates (HTML/CSS)
-* Backend: Python Flask
-* Database: Cloud SQL (PostgreSQL)
-* Container Registry: Artifact Registry
-* Hosting: Cloud Run
-* Infrastructure as Code: Terraform
-* CI/CD: GitHub Actions
-* Security Scanning: Snyk
-* Secrets Management: Google Secret Manager
+* **Frontend:** Flask templates (HTML5 / CSS3 structured UI layout)
+* **Backend:** Python Flask API engine
+* **Database:** Cloud SQL (MySQL) — *Completely decoupled from compute layer per capstone requirements.*
+* **Container Registry:** GCP Artifact Registry
+* **Compute / Hosting:** Google Cloud Run (Serverless Container Platform)
+* **Infrastructure as Code (IaC):** Terraform 
+* **CI/CD Automation Platform:** GitHub Actions
+* **Security Scanning Infrastructure:** Snyk (SAST, SCA, and Container Vulnerability Scanning)
+* **Secrets Management Ecosystem:** Google Secret Manager
 
-## Repository Contents
+***
 
-This repository contains:
+## 🔀 Secure Git & Collaboration Workflow
 
-* Flask web application
-* Terraform infrastructure files
-* GitHub Actions CI/CD pipeline
-* Security scanning configuration
-* Project documentation
+To fulfill our collaborative security metrics, direct pushes to the `main` branch are **100% blocked** by repository administrative configurations. Every line of production code followed this exact zero-trust path:
 
-## Course
-
-**CIS 410 – Cybersecurity Automation**
-
-**Capstone Project – Weeks 9–11**
+```text
+[Feature Branch Created] ➔ [Code Pushed] ➔ [PR Opened] ➔ [Snyk Automated Scans Run] ➔ [Security Reviewer Approves] ➔ [Project Lead Merges]
